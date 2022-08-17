@@ -1,0 +1,40 @@
+// ========== set item in array ========== \\
+// ==== local srorage ('products' = [{1}, {2}, {3}]) ==== \\
+
+function putProductToLs($productId){
+	let $productIdArr = [];
+                
+	if(!JSON.parse(localStorage.getItem('productIdArr'))){
+ 		$productIdArr.push($productId);
+		localStorage.setItem('productIdArr', JSON.stringify($productIdArr));
+	}else{
+		$productIdArr = JSON.parse(localStorage.getItem('productIdArr'));
+		$productIdArr.push($productId);
+		localStorage.setItem('productIdArr', JSON.stringify($productIdArr));
+	}
+	window.location.href = '/';
+}
+
+
+
+// ============ delete item from array ============ \\
+// ==== local storege ('products' = [{1}, {3}] ==== \\
+
+function deleteProductFromLs($productId){ 
+	let $productIdArr = [];
+                
+	$productIdArr = JSON.parse(localStorage.getItem('productIdArr'));
+	for(let i=0; i<$productIdArr.length; i++){
+		if(i == 0){
+                    $productIdArr.splice(i, 1);
+                }
+        }
+        localStorage.setItem('productIdArr', JSON.stringify($productIdArr));           
+}
+
+
+
+// ========== remove array item ========== \\
+// ==== local storage () ==== \\
+
+localStorage.removeItem('name');

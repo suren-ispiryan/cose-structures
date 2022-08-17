@@ -1,0 +1,53 @@
+// SHOW
+// -----------------------------------------------------------------
+import { useSelector } from "react-redux";
+
+const {products, loading} = useSelector((state) => state.products)
+
+useEffect(() => {
+    if (!loading && products.length) {
+        setAllProducts(products)
+    }
+}, [loading])
+
+
+
+// CREATE
+// -----------------------------------------------------------------
+import MyStoreCreate from './myStore/MyStoreCreate';
+import MyStoreUpdate from './myStore/MyStoreUpdate';
+import MyStoreShow from './myStore/MyStoreShow';
+
+import { useDispatch } from "react-redux";
+
+const dispatch = useDispatch();
+
+dispatch({
+    type: CREATE_PRODUCT_REQUEST,
+    payload: data, client
+})
+
+
+
+// GET
+// -----------------------------------------------------------------
+import {GET_ALLPRODUCTS_REQUEST} from "../redux/allProducts/actions";
+import { useDispatch, useSelector } from 'react-redux';
+
+const {allProducts, loading} = useSelector((state) => state.allProducts)
+const dispatch = useDispatch();
+const [allUsersProducts, setAllUsersProducts] = useState([]);
+
+useEffect(() => {
+    dispatch({
+        type: GET_ALLPRODUCTS_REQUEST,
+        payload: client
+    })
+}, []);
+
+useEffect(() => {
+    if (!loading) {
+        setAllUsersProducts(allProducts)
+    }
+}, [loading])
+

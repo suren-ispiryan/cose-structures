@@ -1,0 +1,35 @@
+install in project with npm
+---------------------------
+1. "redux-actions": "^2.6.5",
+2. "redux-debounced": "^0.5.0",
+3. "redux": "^4.2.0",
+4. "react-redux": "^8.0.2",
+5. "redux-saga": "^1.1.3",
+
+
+install extention in browser 
+----------------------------
+1. Redux DevTools
+
+
+project structure
+-----------------
+src folder
+--->components
+--->redux folder
+--->--->MyStore folder
+--->--->--->action.js
+--->--->--->saga.js
+--->--->--->reducer.js
+--->--->rootReducer.js
+--->--->rootSaga.js
+--->--->store.js
+
+
+woring principle
+----------------
+1. with event send data through dispatch function to action
+2. in action.js create 3 actions, Request, Success, Failure
+3. go to saga.js, import actions from actions.js, define in which action which function will work and send links to backend, in response get data, modify and sent to reducer.js
+4. in reducer change state (doing crud)
+5. in file get changed state and show

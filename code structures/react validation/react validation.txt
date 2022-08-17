@@ -1,0 +1,50 @@
+// constants
+const initialValidationValues = {
+    name: '',
+    description: '',
+    brand: '',
+    price: '',
+    color: '',
+    inStock: ''
+}
+const [updatedProduct, setUpdatedProduct] = useState(initialValidationValues);
+const [formErrors, setFormErrors] = useState({})
+
+// handleChange
+const adminHandleChangeUpdate = ({target}) => {
+    setUpdatedProduct({
+        ...updatedProduct, [target.name]: target.value
+    });
+}
+
+// submit
+const update = () => {
+    setFormErrors(validate(updatedProduct))
+    if (Object.keys(validate(updatedProduct)).length === 0) {
+        const dataUpdate = new FormData();
+        dataUpdate.append('id', id);
+        dataUpdate.append('name', updatedProduct.name);
+        dataUpdate.append('description', updatedProduct.description);
+        dispatch({
+            type: UPDATE_USER_PRODUCT_REQUEST,
+            payload: dataUpdate
+        })
+        setShow(false)
+    }
+}
+
+// validation rules
+const validate = (values) => {
+    const errors = {};
+    if (values.name.length < 2 || values.name.length > 15) {
+        errors.name = 'name must be min 2, max 15 symbols';
+    }
+    if (values.description.length < 10 || values.description.length > 255) {
+        errors.description = 'description must be min 10, max 255 symbols';
+    }
+    return errors;
+}
+
+// display error messages
+<h6 className="errors text-danger labels">{formErrors.name}</h6>
+<h6 className="errors text-danger labels">{formErrors.desription}</h6>

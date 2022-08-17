@@ -1,0 +1,11 @@
+import { all } from 'redux-saga/effects'
+import myStore from './myStore/saga'
+
+function* rootSaga() {
+    yield all([
+        myStore()
+    ])
+}
+
+/// export saga
+export default rootSaga

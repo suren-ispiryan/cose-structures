@@ -1,0 +1,43 @@
+0) There are tables
+	1) Users
+	2) Products
+	3) product_user
+
+1) Create pivot table with model names connected with underscore annd written alphabetically (product_user)
+
+2) Fill pivot table with foreign keys 
+	$table->unsignedBigInteger('user_id');
+        $table->unsignedBigInteger('product_id');
+        $table->foreign('user_id')
+              ->references('id')
+              ->on('users')
+               ->onDelete('cascade');
+        $table->foreign('product_id')
+              ->references('id')
+              ->on('products')
+              ->onDelete('cascade');
+
+3) Write in models user and product relationships
+Product model
+	public function users() {
+		return $this->belongsToMany(User::class, 'product_user', 'product_id', 'user_id')->withTimestamps();
+	}
+User model
+	  public function products() {
+		return $this->belongsToMany(Product::class, 'product_user', 'user_id', 'product	_id')->withTimestamps();
+	}
+
+4) In controller
+4.1) adding row to pivot
+	public function add($productId) {
+		$savedProduct = Auth::user()->product()->attach($productId);
+	}
+4.2) deleting row from pivot
+	public function delete($productId) {
+		$savedProduct = Auth::user()->product()->detach($productId);
+	}
+4.3) getting rows from pivot
+	public function getSaveForLater() {
+        	$saveForLaterProducts = Auth::user()->product()->get();
+        	return response()->json($saveForLaterProducts);
+    	}

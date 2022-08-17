@@ -1,0 +1,28 @@
+// send parameter through link
+------------------------------
+<Link to={"/product-details/"+product.id}>
+   <button className="btn btn-primary">
+      See details
+   </button>
+</Link>
+
+
+// send parameter through router
+--------------------------------
+<Route 
+   path="product-details/:id" 
+   element={<ProductDetails client={client} />} 
+/>
+
+
+
+// get parameter from link
+--------------------------
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
+let { id } = useParams();
+
+useEffect(() => {
+    console.log(id)
+}, []) 

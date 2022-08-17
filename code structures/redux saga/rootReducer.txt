@@ -1,0 +1,10 @@
+import { combineReducers } from "redux";
+import myStore from './myStore/reducer'
+
+// ccombine together reducers
+const rootReducer = combineReducers({
+    products: myStore
+})
+
+// export reducers
+export default rootReducer
