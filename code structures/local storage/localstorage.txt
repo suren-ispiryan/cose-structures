@@ -1,6 +1,31 @@
-// ========== set item in array ========== \\
-// ==== local srorage ('products' = [{1}, {2}, {3}]) ==== \\
+// ========== set item in array if not exist========== \\
+// =================================================== \\
+const guestSaveForLater = (event, id) => {
+        let savedForLater = [];
 
+        if (!JSON.parse(localStorage.getItem('savedForLater'))) {
+            savedForLater.push(id);
+            localStorage.setItem('savedForLater', JSON.stringify(savedForLater));
+        } else {
+            let exist = false
+            savedForLater = JSON.parse(localStorage.getItem('savedForLater'));
+            savedForLater.forEach(myFunction)
+            function myFunction (item) {
+                if (item === id) {
+                    exist = true
+                }
+            }
+            if (exist === false){
+                savedForLater.push(id);
+                localStorage.setItem('savedForLater', JSON.stringify(savedForLater));
+            }
+        }
+    }
+
+
+
+// ========== set item in array even if exists ========== \\
+// ====================================================== \\
 function putProductToLs($productId){
 	let $productIdArr = [];
                 
@@ -18,8 +43,7 @@ function putProductToLs($productId){
 
 
 // ============ delete item from array ============ \\
-// ==== local storege ('products' = [{1}, {3}] ==== \\
-
+// ================================================ \\
 function deleteProductFromLs($productId){ 
 	let $productIdArr = [];
                 
@@ -35,6 +59,5 @@ function deleteProductFromLs($productId){
 
 
 // ========== remove array item ========== \\
-// ==== local storage () ==== \\
-
+// ======================================= \\
 localStorage.removeItem('name');
