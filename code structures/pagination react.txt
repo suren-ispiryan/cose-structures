@@ -1,0 +1,56 @@
+// ============ App.js ============ \\
+import Pagination from "./Pagination";
+
+const AllProducts = () => {
+
+   const [currentPage, setCurrentPage] = useState(1);
+   const [postsPerPage, setPostsPerPage] = useState(5);
+   const indexOfLastPost = currentPage * postsPerPage;
+   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+   const currentPosts = allUsersProducts.slice(indexOfFirstPost, indexOfLastPost); // map 
+
+   const paginate = (pageNumber) => {
+      setCurrentPage(pageNumber);
+   }
+
+   return(
+      currentPosts.length > 0 ? currentPosts.map((product) => {  
+         return (<>
+            {product.name}
+            <Pagination 
+               allUsersProducts={allUsersProducts} 
+               postsPerPage={postsPerPage} 
+	       paginate={paginate}
+            />
+         </>)
+      }
+   )
+
+}
+
+// ============ Pagination.js ============ \\
+import uuid from "react-uuid";
+
+const Pagination = ({allUsersProducts, postsPerPage, paginate}) => {
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(allUsersProducts.length / postsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    return(
+        <nav className="d-flex justify-content-center my-5">
+            <ul className="pagination">
+                {pageNumbers.map(number => (
+                    <li key={uuid()} className="page-item">
+                        <a onClick={() => paginate(number)} href="#" className="page-link">
+                            {number}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+    )
+}
+
+export default Pagination;
