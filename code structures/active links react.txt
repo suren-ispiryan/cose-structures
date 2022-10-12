@@ -1,0 +1,21 @@
+// ===== navigation.js ===== \\
+import { useLocation } from 'react-router-dom';
+
+const location = useLocation();
+const { pathname } = location;
+const splitLocation = pathname.split("/");
+
+<li className={splitLocation[1] === "user-profile" ? "nav-item active" : "nav-item"}>
+    <Link className="nav-link" to="user-profile">Profile</Link>
+</li>
+
+// ===== style.css ===== \\
+a{
+  font-style: italic;
+}
+
+.active a{
+  color: white !important;
+  font-weight: bold;
+  font-style: italic;
+}
