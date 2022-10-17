@@ -1,0 +1,41 @@
+//===== front =====\\
+1. npm i react-google-recaptcha
+2. import ReCAPTCHA from 'react-google-recaptcha';
+3. const grecaptchaObject = window.grecaptcha;
+   const recaptchaRef = createRef();
+4. window.recaptchaOptions = {
+        useRecaptchaNet: true,
+    };
+    const onChange = (value) => {
+        console.log("Captcha value:", value);
+    }
+5. const registerUser = async (e) => {
+      e.preventDefault()
+      registerInfo['g-recaptcha-response'] = await recaptchaRef.current.execute()
+   }
+6. <form onSubmit={registerUser}>
+      <ReCAPTCHA
+	 ref={recaptchaRef}
+         size="invisible"
+         sitekey='6LdnJnYiAAAAAHtXqZf7ZQOkceIB72wuWgPei7yR'
+         onChange={onChange}
+         grecaptcha={grecaptchaObject}
+      />
+    </form>
+
+
+//===== back =====\\
+//===== env ======\\
+RECAPTCHA_SITE_KEY=6LdnJnYiAAAAAHtXqZf7ZQOkceIB72wuWgPei7yR
+RECAPTCHA_SECRET_KEY=6LdnJnYiAAAAABZS3vOtysSp-_j0uKmnNo6nFe1O
+RECAPTCHA_SITE_VERIFY=https://www.google.com/recaptcha/api/siteverify
+
+//=== controller ===\\
+ $response = Http::asForm()->post(env('RECAPTCHA_SITE_VERIFY'), [
+   'secret' => env('RECAPTCHA_SECRET_KEY'),
+   'response' => $request['g-recaptcha-response'],
+   'remoteip' => $request->ip(),
+]);
+if ($response['success'] === true) {
+   registter functional
+}
