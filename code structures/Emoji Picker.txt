@@ -1,0 +1,51 @@
+//======== terminal ========\\
+==============================
+npm i emoji-picker-react
+
+//======== component ========\\
+===============================
+import EmojiPicker from 'emoji-picker-react';
+
+const emojiRef = useRef(null);
+const [openEmoji, setOpenEmoji] = useState('none');
+const [inputValue, setInputValue] = useState(initialValueOfInput)
+
+const addEmoji = (e) => {
+   setInputValue(inputValue+e.emoji)
+}
+const toggleEmoji = () => {
+   emojiRef.current.style.display === 'none' ?
+   setOpenEmoji('block') :
+   setOpenEmoji('none')
+}
+
+<div
+   style={{display: openEmoji}}
+   className="col-md-12 emoji"
+   id="emoji"
+   ref={emojiRef}
+>
+   <EmojiPicker
+      height="340px"
+      width="450px"
+      theme="dark"
+      emojiStyle="native" // google, apple, facebook, twitter, native
+      suggestedEmojisMode='frequent' // recent
+      autoFocusSearch={false}
+      skinTonePickerLocation="PREVIEW"
+      onEmojiClick={event => addEmoji(event)}
+   />
+</div>
+
+//======== css ========\\ 
+=========================
+.EmojiPickerReact {
+  --epr-emoji-size: 25px !important;
+}
+
+.emoji {
+  position: absolute;
+  max-width: 80%;
+  bottom: 50px;
+  z-index: 100;
+}
