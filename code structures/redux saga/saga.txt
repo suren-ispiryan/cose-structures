@@ -51,7 +51,7 @@ function* getProducts(action) {
 //DELETE
 function* deleteProducts(action) {
     try {
-        const response = yield action.client.delete(`/delete-auth-user-products/+${+action.payload}`)
+        const response = yield action.client.delete(`/delete-auth-user-products/${action.payload}`)
         yield put({
             type: DELETE_PRODUCTS_SUCCESS,
             message: 'Product successfully deleted',
