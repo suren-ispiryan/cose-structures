@@ -1,0 +1,15 @@
+const emojiRef = useRef(null); 
+const [openEmoji, setOpenEmoji] = useState('none');
+
+const toggleEmoji = () => {
+   emojiRef.current.style.display === 'none' ?
+   setOpenEmoji('block') :
+   setOpenEmoji('none')
+}
+
+<div 
+   style={{display: openEmoji}} 
+   ref={emojiRef}
+>
+	smth
+</div>

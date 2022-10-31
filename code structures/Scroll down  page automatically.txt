@@ -1,0 +1,17 @@
+import {useEffect, useRef} from 'react';
+
+
+const bottomRef = useRef(null);
+
+useEffect(() => {
+   bottomRef.current?.scrollIntoView();
+}, [chatMessages]);
+
+
+<div ref={bottomRef}>
+   {
+      chatMessages.map((chatMessages as i) => {
+         // Some logic long text for scrolling	
+      }
+   }
+</div>
