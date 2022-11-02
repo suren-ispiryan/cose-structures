@@ -1,0 +1,115 @@
+// ============================= back end ============================= \\
+==========================================================================
+
+1) register in website pusher.com and get config keys
+
+2) fill env file
+   BROADCAST_DRIVER=pusher
+   QUEUE_CONNECTION=sync
+   PUSHER_APP_ID=1495258
+   PUSHER_APP_KEY=6014ac3bdb98a5b9f8c9
+   PUSHER_APP_SECRET=a706d53303217cc5939a
+   PUSHER_HOST=127.0.0.1
+   PUSHER_PORT=443
+   PUSHER_SCHEME=https
+   PUSHER_APP_CLUSTER=mt1
+
+3) in terminal write (composer require pusher/pusher-php-server)
+
+4) in bootstrap.js uncomment ->
+   import Echo from 'laravel-echo';
+   import Pusher from 'pusher-js';
+   window.Pusher = Pusher;
+   window.Echo = new Echo({
+       broadcaster: 'pusher',
+       key: import.meta.env.VITE_PUSHER_APP_KEY,
+       wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_CLUSTER}.pusher.com`,
+       wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
+       wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
+       forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
+       enabledTransports: ['ws', 'wss'],
+   });
+
+5) in app/config/broadcasting.php ->
+   'connections' => [
+      'pusher' => [
+         'driver' => env('BROADCAST_DRIVER'),
+         'key' => env('PUSHER_APP_KEY'),
+         'secret' => env('PUSHER_APP_SECRET'),
+         'app_id' => env('PUSHER_APP_ID'),
+         'options' => [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+         ],
+         'client_options' => [
+             // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+         ],
+      ],
+      //...some codes
+   ];
+
+6) in app/config/app.php uncomment ->
+   'providers' => [
+	   Illuminate\Broadcasting\BroadcastServiceProvider::class,
+	   App\Providers\BroadcastServiceProvider::class,   
+   ];
+
+7) Create event. in terminal write (php artisan make:event EventName). Add in app/events/EventName.php file ->
+   use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+   class EventName implements ShouldBroadcast {
+      use Dispatchable, InteractsWithSockets, SerializesModels;
+      public $variableSendToFront;
+
+      public function __construct($variableFromComtroller) {
+          $this->variableSendToFront = $variableFromComtroller;
+      }
+
+      public function broadcastOn() {
+         return ['channalName'];
+      }
+
+      public function broadcastAs(){
+         return 'useEventUnderThisName';
+      }
+   }
+
+8) in controller write this to send message to event ->
+   App\Events\EventName;
+   public function addMessageFunction () {
+      // logic for adding message to db
+      event(new use EventName($variableFromComtroller));
+      return response()->json();
+   }
+
+9) in api.php write ->
+   Route::post('create-message/{id}', [ControllerNameController::class, 'functionName']);
+
+// ============================= front end ============================= \\
+===========================================================================
+
+1) in terminal write (npm install laravel-echo pusher-js)
+
+2) when opening chat page in useEffect((){},[]) or opening function write ->
+   // Pusher.logToConsole = true;
+   let pusher = new Pusher('6014ac3bdb98a5b9f8c9')
+   let channel = pusher.subscribe('channelName')
+   let callback = (data) => {
+      console.log(data.variableSendToFront)
+   }
+   channel.bind('message', callback)
+
+3) const sendMessage = (event, id) => {
+        dispatch({
+            type: SEND_MESSAGE_REQUEST,
+            payload: {
+                id: id,
+                messageSendToBackend: inputValueSendToBackend
+            }
+        })
+        setInputValueSendToBackend(initialValueOfInputValueSendToBackend)
+    }
+
+
+
+
